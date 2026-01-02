@@ -1,0 +1,609 @@
+/* ========================================
+   CINEMATIC PHOTOGRAPHY WEBSITE
+   Minimal • Luxury • Editorial • Dynamic
+   ======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --gold: #d4af37;
+  --dark: #0a0a0a;
+  --darker: #050505;
+  --light: #f5f5f5;
+  --gray: #999;
+  --spacing: 8vh;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--dark);
+  color: var(--light);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  letter-spacing: 0.02em;
+}
+
+/* ========================================
+   NAVIGATION - Floating & Minimal
+   ======================================== */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  gap: 3vw;
+  padding: 2.5vh 0;
+  background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+  backdrop-filter: blur(10px);
+  animation: navFadeIn 1s ease-out;
+}
+
+@keyframes navFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.nav a {
+  color: var(--light);
+  text-decoration: none;
+  font-size: clamp(11px, 1.2vw, 13px);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  position: relative;
+  padding: 0.5em 0;
+  transition: color 0.4s ease;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.4s ease, left 0.4s ease;
+}
+
+.nav a:hover {
+  color: var(--gold);
+}
+
+.nav a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ========================================
+   HERO - Cinematic Full Screen
+   ======================================== */
+
+.hero {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--darker);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../images/hero.jpg') center/cover no-repeat;
+  animation: parallaxHero 30s ease infinite alternate;
+  filter: brightness(0.6);
+}
+
+@keyframes parallaxHero {
+  0% { transform: scale(1) translateY(0); }
+  100% { transform: scale(1.1) translateY(-20px); }
+}
+
+.hero-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  animation: heroTextReveal 1.5s ease-out;
+}
+
+@keyframes heroTextReveal {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.hero-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 10vw, 120px);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 1vh;
+  color: var(--light);
+  text-shadow: 0 0 40px rgba(0,0,0,0.8);
+}
+
+.hero-text p {
+  font-size: clamp(14px, 2vw, 18px);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 300;
+}
+
+/* ========================================
+   QUOTE - Cinematic Statement
+   ======================================== */
+
+.quote {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing) 10vw;
+  background: linear-gradient(to bottom, var(--dark), var(--darker));
+  position: relative;
+}
+
+.quote h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 56px);
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  font-style: italic;
+  color: var(--light);
+  max-width: 900px;
+  animation: fadeInUp 1s ease-out;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+
+/* ========================================
+   FEATURED - Hover Reveal
+   ======================================== */
+
+.featured {
+  min-height: 100vh;
+  padding: var(--spacing) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--dark);
+  position: relative;
+}
+
+.featured-item {
+  width: 90vw;
+  max-width: 1400px;
+  height: 80vh;
+  position: relative;
+  margin: 3vh 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.featured-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: grayscale(20%) brightness(0.85);
+}
+
+.featured-item:hover img {
+  transform: scale(1.05);
+  filter: grayscale(0%) brightness(1);
+}
+
+.featured-item .text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 5vh 5vw;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  transform: translateY(100%);
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.featured-item:hover .text {
+  transform: translateY(0);
+}
+
+.featured-item .text h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 3vw, 42px);
+  margin-bottom: 1vh;
+  color: var(--gold);
+}
+
+.featured-item .text p {
+  font-size: clamp(14px, 1.5vw, 18px);
+  color: var(--light);
+  font-weight: 300;
+}
+
+/* ========================================
+   SERVICES - Luxury Editorial Cards
+   ======================================== */
+
+.services {
+  padding: var(--spacing) 5vw;
+  min-height: 100vh;
+  background: var(--darker);
+}
+
+.services h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 8vw, 72px);
+  text-align: center;
+  margin-bottom: 8vh;
+  letter-spacing: 0.05em;
+  color: var(--light);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 4vw;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.service-card {
+  position: relative;
+  height: 60vh;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--dark);
+}
+
+.service-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.8s ease;
+  filter: brightness(0.7) grayscale(30%);
+}
+
+.service-card:hover img {
+  transform: scale(1.08);
+  filter: brightness(1) grayscale(0%);
+}
+
+.service-card .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 4vh 3vw;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.service-card:hover .overlay {
+  opacity: 1;
+}
+
+.service-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 2.5vw, 36px);
+  margin-bottom: 1vh;
+  color: var(--gold);
+  transform: translateY(20px);
+  transition: transform 0.6s ease 0.1s;
+}
+
+.service-card:hover h3 {
+  transform: translateY(0);
+}
+
+.service-card p {
+  font-size: clamp(13px, 1.2vw, 15px);
+  line-height: 1.7;
+  color: var(--light);
+  opacity: 0.9;
+  transform: translateY(20px);
+  transition: transform 0.6s ease 0.2s;
+}
+
+.service-card:hover p {
+  transform: translateY(0);
+}
+
+/* ========================================
+   GALLERY - Masonry Flow
+   ======================================== */
+
+.gallery {
+  padding: var(--spacing) 5vw;
+  columns: 3;
+  column-gap: 2vw;
+  background: var(--dark);
+}
+
+@media (max-width: 1024px) {
+  .gallery { columns: 2; }
+}
+
+@media (max-width: 640px) {
+  .gallery { columns: 1; }
+}
+
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 2vw;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.gallery-item img {
+  width: 100%;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s ease;
+  filter: brightness(0.9) grayscale(20%);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.03);
+  filter: brightness(1) grayscale(0%);
+}
+
+.gallery-item .caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 3vh 2vw;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.gallery-item:hover .caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gallery-item .caption h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(16px, 1.5vw, 20px);
+  color: var(--gold);
+  margin-bottom: 0.5vh;
+}
+
+.gallery-item .caption p {
+  font-size: clamp(12px, 1vw, 14px);
+  color: var(--light);
+}
+
+/* ========================================
+   ABOUT - Editorial Layout
+   ======================================== */
+
+.about {
+  min-height: 100vh;
+  padding: var(--spacing) 10vw;
+  display: flex;
+  align-items: center;
+  gap: 8vw;
+  background: var(--darker);
+}
+
+.about img {
+  width: 45%;
+  height: 80vh;
+  object-fit: cover;
+  filter: grayscale(20%);
+  transition: filter 0.8s ease;
+}
+
+.about img:hover {
+  filter: grayscale(0%);
+}
+
+.about-content {
+  flex: 1;
+}
+
+.about-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 7vw, 72px);
+  margin-bottom: 3vh;
+  line-height: 1.1;
+  color: var(--light);
+}
+
+.about-content p {
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.8;
+  color: var(--gray);
+  margin-bottom: 2vh;
+  font-weight: 300;
+}
+
+/* ========================================
+   CONTACT - Minimal Form
+   ======================================== */
+
+.contact {
+  min-height: 100vh;
+  padding: var(--spacing) 10vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--dark);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 7vw, 72px);
+  margin-bottom: 6vh;
+  text-align: center;
+  color: var(--light);
+}
+
+.contact input,
+.contact textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  margin-bottom: 4vh;
+  color: var(--light);
+  padding: 2vh 0;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  transition: border-color 0.4s ease;
+}
+
+.contact input:focus,
+.contact textarea:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+.contact input::placeholder,
+.contact textarea::placeholder {
+  color: var(--gray);
+}
+
+.contact textarea {
+  resize: vertical;
+  min-height: 15vh;
+}
+
+button {
+  align-self: center;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 2vh 6vw;
+  font-size: clamp(12px, 1.2vw, 14px);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  margin-top: 2vh;
+}
+
+button:hover {
+  background: var(--gold);
+  color: var(--dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+footer {
+  text-align: center;
+  padding: 6vh 0;
+  font-size: clamp(11px, 1vw, 13px);
+  color: var(--gray);
+  background: var(--darker);
+  letter-spacing: 0.1em;
+}
+
+/* ========================================
+   SCROLL ANIMATIONS (CSS only)
+   ======================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ========================================
+   PAGE TRANSITIONS
+   ======================================== */
+
+body {
+  animation: pageEnter 0.6s ease-out;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .about {
+    flex-direction: column;
+  }
+  
+  .about img {
+    width: 100%;
+    height: 50vh;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .nav {
+    gap: 5vw;
+  }
+}
+  
