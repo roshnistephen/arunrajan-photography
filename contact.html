@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Contact – Arunrajan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Arunrajan Photography</title>
   <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -16,18 +18,28 @@
 </nav>
 
 <section class="contact">
-  <h1>Contact</h1>
-  <form>
-    <input type="text" placeholder="Name">
-    <input type="email" placeholder="Email">
-    <textarea placeholder="Your Story"></textarea>
-    <button>Send Your Story →</button>
+  <h1>Let's Create</h1>
+  <form method="POST" action="#" id="contactForm">
+    <label for="name" style="display: none;">Your Name</label>
+    <input type="text" id="name" name="name" placeholder="Your Name" required>
+    
+    <label for="email" style="display: none;">Your Email</label>
+    <input type="email" id="email" name="email" placeholder="Your Email" required>
+    
+    <label for="project" style="display: none;">Project Type</label>
+    <input type="text" id="project" name="project" placeholder="Project Type">
+    
+    <label for="message" style="display: none;">Tell me about your vision</label>
+    <textarea id="message" name="message" placeholder="Tell me about your vision..." required></textarea>
+    
+    <button type="submit">Send Your Story →</button>
   </form>
 </section>
 
 <footer>
-  <p>© Arunrajan Photography</p>
+  <p>© 2026 Arunrajan Photography — All Rights Reserved</p>
 </footer>
 
+<script src="js/main.js"></script>
 </body>
 </html>
