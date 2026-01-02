@@ -1,13 +1,5 @@
 // Cinematic Scroll Effects
 window.addEventListener("scroll", () => {
-  const scrolled = window.scrollY;
-  
-  // Parallax effect on hero
-  const hero = document.querySelector('.hero::before');
-  if (hero) {
-    document.documentElement.style.setProperty('--scroll', scrolled * 0.5 + 'px');
-  }
-  
   // Fade in elements on scroll
   const elements = document.querySelectorAll('.featured-item, .service-card, .gallery-item');
   elements.forEach(el => {

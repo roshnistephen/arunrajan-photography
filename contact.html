@@ -19,11 +19,19 @@
 
 <section class="contact">
   <h1>Let's Create</h1>
-  <form>
-    <input type="text" placeholder="Your Name" required>
-    <input type="email" placeholder="Your Email" required>
-    <input type="text" placeholder="Project Type">
-    <textarea placeholder="Tell me about your vision..." required></textarea>
+  <form method="POST" action="#" id="contactForm">
+    <label for="name" style="display: none;">Your Name</label>
+    <input type="text" id="name" name="name" placeholder="Your Name" required>
+    
+    <label for="email" style="display: none;">Your Email</label>
+    <input type="email" id="email" name="email" placeholder="Your Email" required>
+    
+    <label for="project" style="display: none;">Project Type</label>
+    <input type="text" id="project" name="project" placeholder="Project Type">
+    
+    <label for="message" style="display: none;">Tell me about your vision</label>
+    <textarea id="message" name="message" placeholder="Tell me about your vision..." required></textarea>
+    
     <button type="submit">Send Your Story →</button>
   </form>
 </section>

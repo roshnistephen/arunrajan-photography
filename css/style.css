@@ -169,9 +169,7 @@ body {
   font-style: italic;
   color: var(--light);
   max-width: 900px;
-  animation: fadeInUp 1s ease-out;
-  animation-timeline: view();
-  animation-range: entry 0% cover 30%;
+  animation: fadeInUp 1s ease-out both;
 }
 
 /* ========================================
