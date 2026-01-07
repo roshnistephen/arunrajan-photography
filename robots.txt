@@ -6,6 +6,3 @@ Allow: /
 # Disallow access to specific directories
 Disallow: /processed/
 Disallow: /.git/
-
-# Sitemap location (update with actual URL when available)
-Sitemap: https://arunrajanphotography.com/sitemap.xml
