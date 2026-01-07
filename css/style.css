@@ -51,11 +51,16 @@ body {
   align-items: center;
   gap: 15px;
   animation: logoFadeIn 0.8s ease-out;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .logo-brand img {
   height: 50px;
   width: auto;
+  background: white;
+  padding: 5px;
+  border-radius: 8px;
   filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
 }
 
@@ -95,34 +100,43 @@ body {
   width: 50px;
   height: 50px;
   border: none;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  background: transparent;
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   transition: all 0.3s ease;
-  color: var(--dark);
   animation: logoFadeIn 0.8s ease-out;
+  padding: 10px;
 }
 
-.menu-toggle:hover {
-  background: var(--primary);
-  color: var(--white);
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(255,107,157,0.4);
-}
-
-.menu-toggle svg {
-  width: 24px;
-  height: 24px;
+.menu-toggle span {
+  display: block;
+  width: 30px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.menu-toggle:hover svg {
-  fill: var(--white);
+.menu-toggle:hover span {
+  background: var(--primary);
+  box-shadow: 0 2px 8px rgba(255,107,157,0.4);
+}
+
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translateY(9px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-9px);
 }
 
 /* ========================================
@@ -853,6 +867,7 @@ body {
   
   .logo-brand img {
     height: 40px;
+    padding: 3px;
   }
   
   .brand-text h1 {
@@ -868,6 +883,11 @@ body {
     top: 15px;
     width: 45px;
     height: 45px;
+  }
+  
+  .menu-toggle span {
+    width: 25px;
+    height: 2px;
   }
   
   .nav {
@@ -897,5 +917,46 @@ body {
     bottom: 20px;
     right: 20px;
   }
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Will-change optimization for frequently animated elements */
+.hero-slide img,
+.featured-item img,
+.service-card img,
+.gallery-item img {
+  will-change: transform;
+}
+
+/* Optimize rendering with GPU acceleration */
+.menu-toggle,
+.nav,
+.logo-brand {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Lazy load images with intersection observer support */
+img[loading="lazy"] {
+  content-visibility: auto;
+}
+
+/* Optimize font loading */
+@font-face {
+  font-display: swap;
 }
   

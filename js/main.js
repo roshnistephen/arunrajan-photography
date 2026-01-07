@@ -5,12 +5,14 @@ const nav = document.querySelector('.nav');
 if (menuToggle && nav) {
   menuToggle.addEventListener('click', () => {
     nav.classList.toggle('active');
+    menuToggle.classList.toggle('active');
   });
   
   // Close menu when clicking outside
   document.addEventListener('click', (e) => {
     if (!nav.contains(e.target) && !menuToggle.contains(e.target)) {
       nav.classList.remove('active');
+      menuToggle.classList.remove('active');
     }
   });
   
@@ -19,6 +21,7 @@ if (menuToggle && nav) {
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
       nav.classList.remove('active');
+      menuToggle.classList.remove('active');
     });
   });
 }
