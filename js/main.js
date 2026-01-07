@@ -26,6 +26,48 @@ if (menuToggle && nav) {
   });
 }
 
+// Contact Form - WhatsApp Integration
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const project = document.getElementById('project').value.trim();
+    const message = document.getElementById('message').value.trim();
+    
+    // Validate form
+    if (!name || !email || !message) {
+      alert('Please fill in all required fields');
+      return;
+    }
+    
+    // Format WhatsApp message
+    let whatsappMessage = `*New Inquiry from ${name}*\n\n`;
+    whatsappMessage += `📧 *Email:* ${email}\n`;
+    if (project) {
+      whatsappMessage += `📸 *Project Type:* ${project}\n`;
+    }
+    whatsappMessage += `\n💭 *Message:*\n${message}`;
+    
+    // WhatsApp number (from the floating button)
+    const whatsappNumber = '919539239595';
+    
+    // Create WhatsApp URL
+    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+    
+    // Open WhatsApp in new window
+    window.open(whatsappURL, '_blank');
+    
+    // Optional: Reset form after submission
+    contactForm.reset();
+    
+    // Show success message
+    alert('Thank you! Your message is being sent to WhatsApp. Please click "Send" in the WhatsApp window to complete.');
+  });
+}
+
 // Hero Carousel
 let currentSlide = 0;
 const slides = document.querySelectorAll('.hero-slide');
