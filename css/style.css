@@ -489,22 +489,36 @@ body {
 
 .gallery-container {
   padding: var(--spacing) 5vw;
-  background: var(--white);
+  background: linear-gradient(180deg, var(--white) 0%, var(--light) 50%, var(--white) 100%);
   min-height: 100vh;
 }
 
 .gallery-category {
-  margin-bottom: 8vh;
+  margin-bottom: 10vh;
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+.gallery-category:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.gallery-category:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.gallery-category:nth-child(4) {
+  animation-delay: 0.6s;
 }
 
 .gallery-category h2 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(32px, 4.5vw, 48px);
+  font-size: clamp(36px, 5vw, 52px);
   color: var(--dark);
-  margin-bottom: 4vh;
+  margin-bottom: 5vh;
   text-align: center;
   position: relative;
-  padding-bottom: 2vh;
+  padding-bottom: 2.5vh;
+  letter-spacing: 0.02em;
 }
 
 .gallery-category h2::after {
@@ -513,57 +527,78 @@ body {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
+  width: 80px;
+  height: 4px;
   background: linear-gradient(90deg, var(--primary), var(--accent));
   border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(255,107,157,0.3);
 }
 
 .gallery {
-  columns: 3;
-  column-gap: 2vw;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5vw;
+  grid-auto-flow: dense;
 }
 
 @media (max-width: 1024px) {
-  .gallery { columns: 2; }
+  .gallery { 
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3vw;
+  }
 }
 
 @media (max-width: 640px) {
-  .gallery { columns: 1; }
+  .gallery { 
+    grid-template-columns: 1fr;
+    gap: 4vw;
+  }
 }
 
 .gallery-item {
-  break-inside: avoid;
-  margin-bottom: 2vw;
   position: relative;
   overflow: hidden;
   cursor: pointer;
   border-radius: var(--border-radius);
-  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+  background: var(--light);
+}
+
+.gallery-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.gallery-item:hover::before {
+  opacity: 1;
 }
 
 .gallery-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 35px rgba(255,107,157,0.15);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 45px rgba(255,107,157,0.25);
 }
 
 .gallery-item img {
   width: 100%;
+  height: auto;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  animation: subtleFloat 12s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-@keyframes subtleFloat {
-  0% { transform: scale(1.02); }
-  100% { transform: scale(1.05); }
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s ease;
+  filter: brightness(0.95) saturate(1.05);
 }
 
 .gallery-item:hover img {
-  animation-play-state: paused;
-  transform: scale(1.08);
+  transform: scale(1.05);
+  filter: brightness(1) saturate(1.1);
 }
 
 .gallery-item .caption {
@@ -571,11 +606,12 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 2.5vh 1.5vw;
-  background: linear-gradient(to top, rgba(255,107,157,0.9), transparent);
+  padding: 3vh 2vw;
+  background: linear-gradient(to top, rgba(255,107,157,0.95) 0%, rgba(255,107,157,0.7) 50%, transparent 100%);
   opacity: 0;
-  transform: translateY(15px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(20px);
+  transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 2;
 }
 
 .gallery-item:hover .caption {
@@ -585,14 +621,17 @@ body {
 
 .gallery-item .caption h4 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(15px, 1.3vw, 18px);
+  font-size: clamp(16px, 1.4vw, 19px);
   color: var(--white);
-  margin-bottom: 0.3vh;
+  margin-bottom: 0.5vh;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 .gallery-item .caption p {
-  font-size: clamp(12px, 1vw, 13px);
+  font-size: clamp(13px, 1.1vw, 14px);
   color: var(--white);
+  opacity: 0.95;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
 /* ========================================
@@ -642,7 +681,7 @@ body {
 }
 
 /* ========================================
-   CONTACT - Clean Form
+   CONTACT - Clean Form with Cinematic Feel
    ======================================== */
 
 .contact {
@@ -651,32 +690,60 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: var(--white);
-  max-width: 750px;
+  background: linear-gradient(135deg, var(--light) 0%, var(--white) 50%, var(--soft-pink) 100%);
+  max-width: 800px;
   margin: 0 auto;
+  position: relative;
+}
+
+.contact::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--primary) 50%, transparent 100%);
 }
 
 .contact h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(42px, 6.5vw, 65px);
-  margin-bottom: 5vh;
+  font-size: clamp(48px, 7vw, 72px);
+  margin-bottom: 6vh;
   text-align: center;
   color: var(--dark);
+  position: relative;
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+.contact h1::after {
+  content: '✦';
+  display: block;
+  font-size: 0.3em;
+  color: var(--primary);
+  margin-top: 2vh;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.contact form {
+  animation: fadeInUp 1s ease-out both;
+  animation-delay: 0.3s;
 }
 
 .contact input,
 .contact textarea {
   width: 100%;
-  background: var(--light);
-  border: 2px solid transparent;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255,107,157,0.1);
+  border-radius: 12px;
   margin-bottom: 3vh;
   color: var(--dark);
-  padding: 1.8vh 1.5vw;
-  font-size: clamp(14px, 1.4vw, 16px);
+  padding: 2vh 2vw;
+  font-size: clamp(15px, 1.5vw, 17px);
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  transition: border-color 0.3s ease, background 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
 .contact input:focus,
@@ -684,16 +751,19 @@ body {
   outline: none;
   border-color: var(--primary);
   background: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255,107,157,0.15);
 }
 
 .contact input::placeholder,
 .contact textarea::placeholder {
   color: var(--gray);
+  opacity: 0.7;
 }
 
 .contact textarea {
   resize: vertical;
-  min-height: 14vh;
+  min-height: 16vh;
 }
 
 button {
@@ -701,21 +771,45 @@ button {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   border: none;
   color: var(--white);
-  padding: 1.8vh 5vw;
-  font-size: clamp(12px, 1.15vw, 14px);
+  padding: 2vh 6vw;
+  font-size: clamp(13px, 1.2vw, 15px);
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 2vh;
-  border-radius: 25px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  margin-top: 3vh;
+  border-radius: 30px;
   font-weight: 600;
-  box-shadow: 0 5px 20px rgba(255,107,157,0.3);
+  box-shadow: 0 8px 25px rgba(255,107,157,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+button:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(255,107,157,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(255,107,157,0.4);
+}
+
+button:active {
+  transform: translateY(-2px);
 }
 
 /* ========================================
@@ -838,7 +932,7 @@ footer a:hover {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
   }
   to {
     opacity: 1;
@@ -846,8 +940,28 @@ footer a:hover {
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 body {
-  animation: pageEnter 0.5s ease-out;
+  animation: fadeIn 0.6s ease-out;
 }
 
 @keyframes pageEnter {
