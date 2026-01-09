@@ -1,3 +1,13 @@
+// Page Loader
+window.addEventListener('load', () => {
+  const loader = document.querySelector('.page-loader');
+  if (loader) {
+    setTimeout(() => {
+      loader.classList.add('hidden');
+    }, 500);
+  }
+});
+
 // Menu Toggle
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.nav');
