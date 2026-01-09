@@ -5,8 +5,8 @@ require 'fileutils'
 
 INPUT_DIR = 'images'
 OUTPUT_DIR = 'processed'
-MAX_WIDTH = 1920
-QUALITY = 85
+MAX_WIDTH = 1400
+QUALITY = 82
 
 # Create output directory
 FileUtils.mkdir_p(OUTPUT_DIR)
