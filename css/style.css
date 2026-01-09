@@ -1087,10 +1087,9 @@ body {
   backface-visibility: hidden;
 }
 
-/* Optimize images for better performance */
+/* Optimize images for photography */
 img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  image-rendering: auto;
 }
 
 /* Optimize font loading */

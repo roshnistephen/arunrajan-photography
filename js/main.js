@@ -87,7 +87,6 @@ const dots = document.querySelectorAll('.carousel-dot');
 if (slides.length > 0) {
   // Store original order
   const slideArray = Array.from(slides);
-  const dotsArray = Array.from(dots);
   
   // Fisher-Yates shuffle for true randomization
   for (let i = slideArray.length - 1; i > 0; i--) {
@@ -100,6 +99,11 @@ if (slides.length > 0) {
   if (carousel) {
     slideArray.forEach(slide => carousel.appendChild(slide));
   }
+  
+  // Update dots to match new order
+  dots.forEach((dot, index) => {
+    dot.setAttribute('data-slide', index);
+  });
 }
 
 function showSlide(n) {
