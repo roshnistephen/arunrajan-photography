@@ -791,7 +791,7 @@ button {
   align-self: center;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   border: none;
-  color: var(--white);
+  color: var(--dark);
   padding: 2vh 6vw;
   font-size: clamp(13px, 1.2vw, 15px);
   text-transform: uppercase;
@@ -801,7 +801,7 @@ button {
   margin-top: 3vh;
   border-radius: 30px;
   font-weight: 600;
-  box-shadow: 0 8px 25px rgba(255,107,157,0.3);
+  box-shadow: 0 8px 25px rgba(212,175,55,0.4);
   position: relative;
   overflow: hidden;
 }
@@ -1087,9 +1087,10 @@ body {
   backface-visibility: hidden;
 }
 
-/* Lazy load images with intersection observer support */
-img[loading="lazy"] {
-  content-visibility: auto;
+/* Optimize images for better performance */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 /* Optimize font loading */

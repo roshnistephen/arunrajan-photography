@@ -83,6 +83,25 @@ let currentSlide = 0;
 const slides = document.querySelectorAll('.hero-slide');
 const dots = document.querySelectorAll('.carousel-dot');
 
+// Randomize slide order on page load
+if (slides.length > 0) {
+  // Store original order
+  const slideArray = Array.from(slides);
+  const dotsArray = Array.from(dots);
+  
+  // Fisher-Yates shuffle for true randomization
+  for (let i = slideArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [slideArray[i], slideArray[j]] = [slideArray[j], slideArray[i]];
+  }
+  
+  // Reattach slides in random order
+  const carousel = document.querySelector('.hero-carousel');
+  if (carousel) {
+    slideArray.forEach(slide => carousel.appendChild(slide));
+  }
+}
+
 function showSlide(n) {
   slides.forEach(slide => slide.classList.remove('active'));
   dots.forEach(dot => dot.classList.remove('active'));
@@ -101,9 +120,9 @@ function nextSlide() {
   showSlide(currentSlide + 1);
 }
 
-// Auto-advance carousel
+// Auto-advance carousel every 4 seconds
 if (slides.length > 0) {
-  setInterval(nextSlide, 5000);
+  setInterval(nextSlide, 4000);
   
   // Dot navigation
   dots.forEach((dot, index) => {
