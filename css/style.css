@@ -503,7 +503,7 @@ body {
 }
 
 /* ========================================
-   GALLERY - Organized Categories
+   GALLERY - Masonry Layout
    ======================================== */
 
 .gallery-container {
@@ -513,7 +513,7 @@ body {
 }
 
 .gallery-category {
-  margin-bottom: 10vh;
+  margin-bottom: 12vh;
   animation: fadeInUp 0.8s ease-out both;
 }
 
@@ -533,7 +533,7 @@ body {
   font-family: 'Playfair Display', serif;
   font-size: clamp(36px, 5vw, 52px);
   color: var(--light);
-  margin-bottom: 5vh;
+  margin-bottom: 6vh;
   text-align: center;
   position: relative;
   padding-bottom: 2.5vh;
@@ -553,24 +553,32 @@ body {
   box-shadow: 0 2px 8px rgba(212,175,55,0.5);
 }
 
+/* Masonry Layout using CSS Columns */
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.5vw;
-  grid-auto-flow: dense;
+  column-count: 4;
+  column-gap: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1400px) {
+  .gallery { 
+    column-count: 3;
+    column-gap: 18px;
+  }
 }
 
 @media (max-width: 1024px) {
   .gallery { 
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3vw;
+    column-count: 2;
+    column-gap: 15px;
   }
 }
 
 @media (max-width: 640px) {
   .gallery { 
-    grid-template-columns: 1fr;
-    gap: 4vw;
+    column-count: 1;
+    column-gap: 0;
   }
 }
 
@@ -583,6 +591,10 @@ body {
   transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
   background: var(--medium-dark);
   border: 1px solid rgba(212,175,55,0.1);
+  break-inside: avoid;
+  margin-bottom: 20px;
+  display: inline-block;
+  width: 100%;
 }
 
 .gallery-item::before {
@@ -605,7 +617,8 @@ body {
 
 .gallery-item:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 15px 45px rgba(212,175,55,0.4);
+  box-shadow: 0 20px 50px rgba(212,175,55,0.4);
+  z-index: 10;
 }
 
 .gallery-item img {
@@ -613,12 +626,12 @@ body {
   height: auto;
   display: block;
   transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s ease;
-  filter: brightness(0.85) saturate(1.05);
+  filter: brightness(0.88) saturate(1.05);
 }
 
 .gallery-item:hover img {
-  transform: scale(1.05);
-  filter: brightness(1) saturate(1.1);
+  transform: scale(1.08);
+  filter: brightness(1) saturate(1.15);
 }
 
 .gallery-item .caption {
@@ -626,8 +639,8 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 3vh 2vw;
-  background: linear-gradient(to top, rgba(212,175,55,0.95) 0%, rgba(212,175,55,0.7) 50%, transparent 100%);
+  padding: 25px 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -641,17 +654,38 @@ body {
 
 .gallery-item .caption h4 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(16px, 1.4vw, 19px);
-  color: var(--dark);
-  margin-bottom: 0.5vh;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  font-size: clamp(15px, 1.3vw, 18px);
+  color: var(--primary);
+  margin-bottom: 5px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
 
 .gallery-item .caption p {
-  font-size: clamp(13px, 1.1vw, 14px);
-  color: var(--dark);
-  opacity: 0.95;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  font-size: clamp(12px, 1vw, 14px);
+  color: var(--light);
+  opacity: 0.9;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* Staggered animation for masonry items */
+.gallery-item {
+  animation: fadeInMasonry 0.6s ease-out both;
+}
+
+.gallery-item:nth-child(4n+1) { animation-delay: 0.05s; }
+.gallery-item:nth-child(4n+2) { animation-delay: 0.1s; }
+.gallery-item:nth-child(4n+3) { animation-delay: 0.15s; }
+.gallery-item:nth-child(4n) { animation-delay: 0.2s; }
+
+@keyframes fadeInMasonry {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* ========================================
