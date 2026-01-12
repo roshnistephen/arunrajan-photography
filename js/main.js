@@ -227,6 +227,8 @@ if (filterButtons.length > 0) {
 }
 
 // Lightbox Functionality
+let escapeHandler = null;
+
 function openLightbox(imageSrc) {
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
@@ -235,6 +237,16 @@ function openLightbox(imageSrc) {
     lightboxImg.src = imageSrc;
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
+    
+    // Add escape key handler when lightbox opens
+    if (!escapeHandler) {
+      escapeHandler = (e) => {
+        if (e.key === 'Escape') {
+          closeLightbox();
+        }
+      };
+      document.addEventListener('keydown', escapeHandler);
+    }
   }
 }
 
@@ -244,15 +256,35 @@ function closeLightbox() {
   if (lightbox) {
     lightbox.classList.remove('active');
     document.body.style.overflow = 'auto';
+    
+    // Remove escape key handler when lightbox closes
+    if (escapeHandler) {
+      document.removeEventListener('keydown', escapeHandler);
+      escapeHandler = null;
+    }
   }
 }
 
-// Add click listeners to all gallery items
+// Add click and keyboard listeners to all gallery items
 const galleryItems = document.querySelectorAll('.gallery-item img');
 if (galleryItems.length > 0) {
   galleryItems.forEach(img => {
+    // Make images keyboard accessible
+    img.setAttribute('tabindex', '0');
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', 'Click to enlarge image');
+    
+    // Click handler
     img.addEventListener('click', () => {
       openLightbox(img.src);
+    });
+    
+    // Keyboard handler (Enter or Space)
+    img.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openLightbox(img.src);
+      }
     });
   });
 }
@@ -262,13 +294,6 @@ const lightbox = document.getElementById('lightbox');
 if (lightbox) {
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) {
-      closeLightbox();
-    }
-  });
-  
-  // Close lightbox on ESC key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
       closeLightbox();
     }
   });
