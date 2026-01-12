@@ -1242,17 +1242,56 @@ body {
   .menu-toggle {
     right: 15px;
     top: 15px;
-    width: 45px;
-    height: 45px;
+    padding: 8px 12px;
   }
   
-  .menu-toggle span {
-    width: 25px;
-    height: 2px;
+  .menu-toggle::before {
+    font-size: 20px;
+  }
+  
+  .menu-toggle::after {
+    font-size: 11px;
   }
   
   .nav {
     width: 250px;
+  }
+  
+  .gallery-filter {
+    gap: 10px;
+    padding: 2vh 3vw;
+    top: 70px;
+  }
+  
+  .filter-btn {
+    padding: 10px 20px;
+    font-size: 12px;
+  }
+  
+  .quote {
+    min-height: 45vh;
+    padding: 4vh 5vw;
+  }
+  
+  .quote::before,
+  .quote::after {
+    font-size: 100px;
+  }
+  
+  .quote h2 {
+    padding: 25px;
+  }
+  
+  .featured-item {
+    flex-direction: column;
+  }
+  
+  .featured-item:nth-child(even) {
+    flex-direction: column;
+  }
+  
+  .featured-item img {
+    width: 100%;
   }
   
   .about {
@@ -1277,6 +1316,11 @@ body {
     height: 55px;
     bottom: 20px;
     right: 20px;
+  }
+  
+  .whatsapp-float svg {
+    width: 28px;
+    height: 28px;
   }
 }
 
