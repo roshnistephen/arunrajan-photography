@@ -187,4 +187,90 @@ if ('IntersectionObserver' in window) {
     });
   });
 }
+
+// Gallery Category Filtering
+const filterButtons = document.querySelectorAll('.filter-btn');
+const galleryCategories = document.querySelectorAll('.gallery-category');
+
+if (filterButtons.length > 0) {
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove active class from all buttons
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      
+      // Add active class to clicked button
+      button.classList.add('active');
+      
+      // Get the selected category
+      const category = button.getAttribute('data-category');
+      
+      // Filter gallery categories
+      galleryCategories.forEach(cat => {
+        if (category === 'all') {
+          cat.classList.remove('hidden');
+        } else {
+          if (cat.getAttribute('data-category') === category) {
+            cat.classList.remove('hidden');
+          } else {
+            cat.classList.add('hidden');
+          }
+        }
+      });
+      
+      // Smooth scroll to gallery container
+      const galleryContainer = document.querySelector('.gallery-container');
+      if (galleryContainer) {
+        galleryContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+}
+
+// Lightbox Functionality
+function openLightbox(imageSrc) {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  
+  if (lightbox && lightboxImg) {
+    lightboxImg.src = imageSrc;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  
+  if (lightbox) {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// Add click listeners to all gallery items
+const galleryItems = document.querySelectorAll('.gallery-item img');
+if (galleryItems.length > 0) {
+  galleryItems.forEach(img => {
+    img.addEventListener('click', () => {
+      openLightbox(img.src);
+    });
+  });
+}
+
+// Close lightbox on background click
+const lightbox = document.getElementById('lightbox');
+if (lightbox) {
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+  
+  // Close lightbox on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+}
   
