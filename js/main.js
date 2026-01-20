@@ -191,6 +191,16 @@ if (lightbox) {
 /* ========================================
    VIDEO CAROUSEL WITH LAZY LOADING
    ======================================== */
+
+// Constants
+const CARDS_PER_VIEW_DESKTOP = 2;
+const CARDS_PER_VIEW_TABLET = 1.5; // Shows 1 full card + 0.5 preview
+const CARDS_PER_VIEW_MOBILE = 1;
+const CAROUSEL_GAP = 25;
+const DRAG_SENSITIVITY = 2;
+const SWIPE_THRESHOLD = 50;
+const INITIAL_VISIBLE_VIDEOS = 2;
+
 const initVideoCarousel = () => {
   const carousel = $('.video-carousel');
   const carouselTrack = $('.video-carousel-track');
@@ -206,9 +216,9 @@ const initVideoCarousel = () => {
   
   const getCardsPerView = () => {
     const width = window.innerWidth;
-    if (width <= 640) return 1;
-    if (width <= 1024) return 1.5;
-    return 2;
+    if (width <= 640) return CARDS_PER_VIEW_MOBILE;
+    if (width <= 1024) return CARDS_PER_VIEW_TABLET;
+    return CARDS_PER_VIEW_DESKTOP;
   };
   
   const getVisibleCards = () => $$('.video-card:not(.video-hidden)');
@@ -218,13 +228,12 @@ const initVideoCarousel = () => {
     if (cards.length === 0) return;
     
     const cardsPerView = getCardsPerView();
-    const cardWidth = cards[0].offsetWidth;
-    const gap = 25;
+    const cardWidth = cards[0]?.offsetWidth || 0;
     const maxIndex = Math.max(0, cards.length - cardsPerView);
     
     currentIndex = Math.max(0, Math.min(currentIndex, maxIndex));
     
-    const offset = currentIndex * (cardWidth + gap);
+    const offset = currentIndex * (cardWidth + CAROUSEL_GAP);
     carouselTrack.style.transform = `translateX(-${offset}px)`;
     
     if (prevBtn) prevBtn.disabled = currentIndex === 0;
@@ -272,14 +281,14 @@ const initVideoCarousel = () => {
     e.preventDefault();
     
     const x = e.pageX - carousel.offsetLeft;
-    const walk = (x - startX) * 2;
+    const walk = (x - startX) * DRAG_SENSITIVITY;
     const cards = getVisibleCards();
     
-    if (walk < -50 && currentIndex < cards.length - getCardsPerView()) {
+    if (walk < -SWIPE_THRESHOLD && currentIndex < cards.length - getCardsPerView()) {
       currentIndex++;
       updateCarousel();
       startX = x;
-    } else if (walk > 50 && currentIndex > 0) {
+    } else if (walk > SWIPE_THRESHOLD && currentIndex > 0) {
       currentIndex--;
       updateCarousel();
       startX = x;
@@ -299,10 +308,10 @@ const initVideoCarousel = () => {
     const cardsPerView = getCardsPerView();
     const maxIndex = Math.max(0, cards.length - cardsPerView);
     
-    if (touchStartX - touchEndX > 50 && currentIndex < maxIndex) {
+    if (touchStartX - touchEndX > SWIPE_THRESHOLD && currentIndex < maxIndex) {
       currentIndex++;
       updateCarousel();
-    } else if (touchEndX - touchStartX > 50 && currentIndex > 0) {
+    } else if (touchEndX - touchStartX > SWIPE_THRESHOLD && currentIndex > 0) {
       currentIndex--;
       updateCarousel();
     }
@@ -317,7 +326,7 @@ const initVideoCarousel = () => {
       
       if (isExpanded) {
         allCards.forEach((card, index) => {
-          if (index >= 2) card.classList.add('video-hidden');
+          if (index >= INITIAL_VISIBLE_VIDEOS) card.classList.add('video-hidden');
         });
         viewMoreBtn.querySelector('.view-more-text').textContent = 'View More Videos';
         viewMoreBtn.classList.remove('expanded');

@@ -1317,6 +1317,7 @@ img {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 60px;
+  --carousel-gap: 25px;
 }
 
 .video-carousel {
@@ -1331,14 +1332,14 @@ img {
 
 .video-carousel-track {
   display: flex;
-  gap: 25px;
+  gap: var(--carousel-gap);
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 10px 0;
 }
 
 .video-card {
-  flex: 0 0 calc(50% - 12.5px);
-  min-width: calc(50% - 12.5px);
+  flex: 0 0 calc(50% - (var(--carousel-gap) / 2));
+  min-width: calc(50% - (var(--carousel-gap) / 2));
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--bg-card);
@@ -1522,8 +1523,8 @@ img {
 /* Mobile Responsive */
 @media (max-width: 1024px) {
   .video-card {
-    flex: 0 0 calc(60% - 12.5px);
-    min-width: calc(60% - 12.5px);
+    flex: 0 0 calc(60% - (var(--carousel-gap) / 2));
+    min-width: calc(60% - (var(--carousel-gap) / 2));
   }
   
   .video-carousel-wrapper {
@@ -1538,8 +1539,8 @@ img {
 
 @media (max-width: 768px) {
   .video-card {
-    flex: 0 0 calc(85% - 12.5px);
-    min-width: calc(85% - 12.5px);
+    flex: 0 0 calc(85% - (var(--carousel-gap) / 2));
+    min-width: calc(85% - (var(--carousel-gap) / 2));
   }
   
   .video-carousel-wrapper {
@@ -1569,8 +1570,8 @@ img {
 
 @media (max-width: 640px) {
   .video-card {
-    flex: 0 0 calc(100% - 12.5px);
-    min-width: calc(100% - 12.5px);
+    flex: 0 0 calc(100% - (var(--carousel-gap) / 2));
+    min-width: calc(100% - (var(--carousel-gap) / 2));
   }
   
   .video-showcase {
