@@ -229,4 +229,199 @@ if (lightbox) {
     }
   });
 }
+
+/* ========================================
+   VIDEO CAROUSEL WITH LAZY LOADING
+   ======================================== */
+
+// Video Carousel Functionality
+const carousel = document.querySelector('.video-carousel');
+const carouselTrack = document.querySelector('.video-carousel-track');
+const prevBtn = document.querySelector('.carousel-btn-prev');
+const nextBtn = document.querySelector('.carousel-btn-next');
+const viewMoreBtn = document.getElementById('viewMoreVideos');
+
+if (carousel && carouselTrack) {
+  let currentIndex = 0;
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+  
+  // Get all video cards (including hidden ones)
+  const getAllCards = () => document.querySelectorAll('.video-card');
+  const getVisibleCards = () => document.querySelectorAll('.video-card:not(.video-hidden)');
+  
+  // Calculate how many cards to show at once based on screen size
+  const getCardsPerView = () => {
+    const width = window.innerWidth;
+    if (width <= 640) return 1;
+    if (width <= 1024) return 1.5;
+    return 2;
+  };
+  
+  // Update carousel position
+  const updateCarousel = () => {
+    const cards = getVisibleCards();
+    const cardsPerView = getCardsPerView();
+    const cardWidth = cards[0]?.offsetWidth || 0;
+    const gap = 25;
+    const maxIndex = Math.max(0, cards.length - cardsPerView);
+    
+    currentIndex = Math.min(currentIndex, maxIndex);
+    currentIndex = Math.max(0, currentIndex);
+    
+    const offset = currentIndex * (cardWidth + gap);
+    carouselTrack.style.transform = `translateX(-${offset}px)`;
+    
+    // Update button states
+    if (prevBtn) prevBtn.disabled = currentIndex === 0;
+    if (nextBtn) nextBtn.disabled = currentIndex >= maxIndex;
+  };
+  
+  // Navigation button handlers
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      currentIndex = Math.max(0, currentIndex - 1);
+      updateCarousel();
+    });
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const cards = getVisibleCards();
+      const cardsPerView = getCardsPerView();
+      const maxIndex = Math.max(0, cards.length - cardsPerView);
+      currentIndex = Math.min(maxIndex, currentIndex + 1);
+      updateCarousel();
+    });
+  }
+  
+  // Touch/Mouse drag functionality
+  carousel.addEventListener('mousedown', (e) => {
+    isDown = true;
+    carousel.classList.add('grabbing');
+    startX = e.pageX - carousel.offsetLeft;
+    scrollLeft = currentIndex;
+  });
+  
+  carousel.addEventListener('mouseleave', () => {
+    isDown = false;
+    carousel.classList.remove('grabbing');
+  });
+  
+  carousel.addEventListener('mouseup', () => {
+    isDown = false;
+    carousel.classList.remove('grabbing');
+  });
+  
+  carousel.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - carousel.offsetLeft;
+    const walk = (x - startX) * 2;
+    const cards = getVisibleCards();
+    const cardWidth = cards[0]?.offsetWidth || 0;
+    const gap = 25;
+    
+    if (walk < -50 && currentIndex < cards.length - getCardsPerView()) {
+      currentIndex++;
+      updateCarousel();
+      startX = x;
+    } else if (walk > 50 && currentIndex > 0) {
+      currentIndex--;
+      updateCarousel();
+      startX = x;
+    }
+  });
+  
+  // Touch events for mobile
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  carousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  
+  carousel.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+  
+  const handleSwipe = () => {
+    const cards = getVisibleCards();
+    const cardsPerView = getCardsPerView();
+    const maxIndex = Math.max(0, cards.length - cardsPerView);
+    
+    if (touchStartX - touchEndX > 50 && currentIndex < maxIndex) {
+      currentIndex++;
+      updateCarousel();
+    } else if (touchEndX - touchStartX > 50 && currentIndex > 0) {
+      currentIndex--;
+      updateCarousel();
+    }
+  };
+  
+  // Window resize handler
+  window.addEventListener('resize', updateCarousel);
+  
+  // Initial update
+  updateCarousel();
+}
+
+// View More Videos Button
+if (viewMoreBtn) {
+  viewMoreBtn.addEventListener('click', () => {
+    const hiddenCards = document.querySelectorAll('.video-card.video-hidden');
+    const isExpanded = hiddenCards.length === 0;
+    
+    if (isExpanded) {
+      // Collapse - hide videos beyond first 2
+      const allCards = getAllCards();
+      allCards.forEach((card, index) => {
+        if (index >= 2) {
+          card.classList.add('video-hidden');
+        }
+      });
+      viewMoreBtn.querySelector('.view-more-text').textContent = 'View More Videos';
+      viewMoreBtn.classList.remove('expanded');
+    } else {
+      // Expand - show all videos
+      hiddenCards.forEach(card => {
+        card.classList.remove('video-hidden');
+      });
+      viewMoreBtn.querySelector('.view-more-text').textContent = 'View Less';
+      viewMoreBtn.classList.add('expanded');
+    }
+    
+    // Reset carousel position and update
+    currentIndex = 0;
+    updateCarousel();
+  });
+}
+
+// Lazy Load Videos - Load iframe only when play button is clicked
+const videoContainers = document.querySelectorAll('.video-container[data-video-id]');
+videoContainers.forEach(container => {
+  const placeholder = container.querySelector('.video-placeholder');
+  if (placeholder) {
+    placeholder.addEventListener('click', function() {
+      const videoId = container.getAttribute('data-video-id');
+      const iframe = document.createElement('iframe');
+      iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
+      iframe.setAttribute('title', 'YouTube video player');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.style.position = 'absolute';
+      iframe.style.top = '0';
+      iframe.style.left = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = 'none';
+      
+      // Replace placeholder with iframe
+      container.innerHTML = '';
+      container.appendChild(iframe);
+    });
+  }
+});
   

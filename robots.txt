@@ -2,7 +2,13 @@
 
 User-agent: *
 Allow: /
-
-# Disallow access to specific directories
 Disallow: /processed/
+Disallow: /processed1/
 Disallow: /.git/
+Disallow: /test-results/
+
+# Sitemap location (update with actual URL when available)
+Sitemap: https://arunrajanphotography.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
